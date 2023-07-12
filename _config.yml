@@ -1,5 +1,5 @@
 title: senordeveloper.net
-description: this is the GitHub home of senordeveloper
+description: this is the GitHub home of señordeveloper
 remote_theme: pages-themes/midnight@v0.2.0
 plugins:
 - jekyll-remote-theme # add this line to the plugins list if you already have one
