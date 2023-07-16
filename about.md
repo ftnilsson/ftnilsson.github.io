@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I am a technical leader that loves building highly functioning teams. I am also a developer who lives mainly in the backend `C#` but have aspirations of being a front-end guru `js` `react` . I love playing games and dream about that one day I might create my own game `unity`.  I also like to have my head in the clouds `AWS` `Azure`. All this whilst following agile development, being a firm beliver in `dev-ops` and thinking that small is better `micro-services` `DDD`.
+I am a technical leader who loves building highly functioning teams. I am also a developer who spends most time doing backend developemnt `C#` `APIs` but have aspirations of being a front-end guru `js` `react` . I love playing games and dream about that one day I might create my own game `unity`.  I also like to have my head in the clouds `AWS` `Azure`. All this whilst following agile development, being a firm believer in `dev-ops` and thinking that small is better `micro-services` `DDD`.
 
 ### More Information
 
