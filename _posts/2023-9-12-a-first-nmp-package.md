@@ -3,12 +3,8 @@ layout: post
 title: Awesome Release Name Generator (my first package)
 ---
 
-# Awesome Release Name Generator
-
-## My first npm package
-
+I have never published an package to `npm` or any other such directories, but I thought it was time to learn. The project is a simple *“release”* name generator like the [haikunator​](https://www.npmjs.com/package/haikunator) but less sofisticated in it’s initial version.
 ![GitHub repo](../images/octocat.png "github repo") [release-name-generator​](https://github.com/ftnilsson/release-name-generator)
-
 
 I have never published an package to `npm` or any other such directories, but I thought it was time to learn. The project is a simple *“release”* name generator like the [haikunator​](https://www.npmjs.com/package/haikunator) but less sofisticated in it’s initial version.
 
