@@ -1,3 +1,8 @@
+---
+layout: post
+title: Awesome Release Name Generator (my first package)
+---
+
 # Awesome Release Name Generator
 
 ## My first npm package
