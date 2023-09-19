@@ -17,14 +17,21 @@ $yellow: #FFC300;
 $lightYellow: #f6d877;
 $bordeaux: #511010;
 $lightBordeaux: #492424;
+
+$hotPink2: #FF1D8E;
+$hotPink: #FF369B;
+$lightPink: #fa93c6;
+
+$neon: #FF1D8E;
+$neon2: #FF1D8E;
+
 // Font stacks
 // $helvetica: Helvetica, Arial, sans-serif;
 // $helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
 // $georgia: Georgia, serif;
 
-$literata: 'Literata', serif;
-$alegreya : 'Alegreya Sans', sans-serif;
-$shadowsInToLight : 'Shadows Into Light', cursive;
+$rubik: 'Rubik', sans-serif;
+$neonTilt : 'Tilt Neon', cursive;
 // Mobile breakpoints
 @mixin mobile {
   @media screen and (max-width: 640px) {

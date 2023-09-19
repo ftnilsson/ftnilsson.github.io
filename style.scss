@@ -18,9 +18,9 @@ html {
 }
 
 body {
-	background: $white;
-  font: 18px/1.4 $literata;
-  color: $darkGray;
+	background: $darkerGray;
+  font: 18px/1.4 $rubik;
+  color: $white;
 }
 
 .container {
@@ -31,8 +31,8 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $alegreya;
-  color: $darkerGray;
+  font-family: $rubik;
+  color: $hotPink;
   font-weight: bold;
 
   line-height: 1.7;
@@ -117,17 +117,17 @@ img {
 
 .date {
   font-style: italic;
-  color: $gray;
+  color: $lightGray;
 }
 
 // Specify the color of the selection
 ::-moz-selection {
   color: $black;
-  background: $lightYellow;
+  background: $lightPink;
 }
 ::selection {
   color: $black;
-  background: $lightYellow;
+  background: $lightPink;
 }
 
 // Nicolas Gallagher's micro clearfix hack
@@ -152,12 +152,11 @@ img {
 
 .wrapper-masthead {
   margin-bottom: 50px;
-  background: $lightGray;
+  background: $darkerGray;
   background-image: url('/images/bg1-min.png');
   background-position: bottom center;
   background-repeat: no-repeat;
   padding: 5vh 0;
-  background-image: url('/images/bg1-min.png'), linear-gradient($lightGray 75%, $white ); /* W3C */
 }
 
 .masthead {
@@ -211,11 +210,24 @@ img {
 
 .site-name {
   margin: -20px 0 0 0;
-  color: $blue;
+  color: $hotPink;
   cursor: pointer;
-  font-family: $shadowsInToLight;
+  font-family: $neonTilt;
   // font-weight: 400;
   font-size: 4rem;
+  text-shadow: 0 0 2vw $lightPink;
+
+  a {
+    // animation: neon 1s ease infinite;
+    // -moz-animation: neon 1s ease infinite;
+    // -webkit-animation: neon 1s ease infinite;
+  }
+  
+  a:hover{
+    color: $lightPink;
+    text-shadow: 0 0 3vw $lightPink;
+  }
+  //animation: pulsate 0.11s ease-in-out infinite alternate;  
   // letter-spacing: 1px;
 }
 
@@ -229,10 +241,49 @@ img {
   }
 }
 
+@keyframes neon {
+  0%,
+  100% {
+    text-shadow: 0 0 1vw #FA1C16, 0 0 3vw #FA1C16, 0 0 10vw #FA1C16, 0 0 10vw #FA1C16, 0 0 .4vw #FED128, .5vw .5vw .1vw #806914;
+    color: $hotPink;
+  }
+  50% {
+    text-shadow: 0 0 .5vw #800E0B, 0 0 1.5vw #800E0B, 0 0 5vw #800E0B, 0 0 5vw #800E0B, 0 0 .2vw #800E0B, .5vw .5vw .1vw #40340A;
+    color: $lightPink;
+  }
+}
+
+@keyframes pulsate {
+  100% {
+    /* Larger blur radius */
+    text-shadow:
+      0 0 4px #fff,
+      0 0 11px #fff,
+      0 0 19px #fff,
+      0 0 40px $hotPink,
+      0 0 80px $hotPink,
+      0 0 90px $hotPink,
+      0 0 100px $hotPink,
+      0 0 150px $hotPink;
+  }
+ 0% {
+    /* A slightly smaller blur radius */
+    text-shadow:
+      0 0 4px #fff,
+      0 0 10px #fff,
+      0 0 18px #fff,
+      0 0 38px $hotPink,
+      0 0 73px $hotPink,
+      0 0 80px $hotPink,
+      0 0 94px $hotPink,
+      0 0 140px $hotPink
+  }
+}
+
 nav {
   float: right;
   margin-top: 23px; // @TODO: Vertically middle align
-  font-family: $alegreya;
+  font-family: $rubik;
   font-size: 18px;
 
   @include mobile {
@@ -294,7 +345,7 @@ nav {
   margin-top: 50px;
   // border-top: 1px solid #575757;
   // border-bottom: 1px solid #575757;
-  background-color: $lightGray;
+  background-color: $darkerGray;
   background-image: url('/images/bg3-min.png');
   background-position: center top;
   background-size:cover;
@@ -303,16 +354,22 @@ nav {
   // background-image: url("IMAGE_URL"); /* fallback */
   // background-image: url("IMAGE_URL"), linear-gradient(#eb01a5, #d13531); /* W3C */
   
-  background-image: url('/images/bg3-min.png'), linear-gradient($white,$lightGray 80%); /* W3C */
+  //background-image: url('/images/bg3-min.png'), linear-gradient($white,$lightGray 80%); /* W3C */
 }
 
 footer {
   padding: 20px 0;
   text-align: center;
 
+  a:hover{
+    color: $lightPink;
+    text-shadow: 0 0 3vw $lightPink;
+  }
+
   .credits{
     font-size: 0.8rem;
-  
+    margin: 3vw;
+    opacity: 0.4;
    
   }
   .copyright{
@@ -357,7 +414,7 @@ footer {
 
 // specific About page styles for clifton strengths
 code.language-plaintext{
-  background: $lightGray;
-  color: rosybrown !important;
+  background: $lightPink;
+  color: $darkGray !important;
 }
 
