@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Inspired by Marty Cagan: Building Products People Love
+title: Inspired - Building Products People Love by Marty Cagan
 ---
 
 If you’re in product management or part of a product team, Marty Cagan’s Inspired is a must-read. It’s packed with lessons on how to go beyond just delivering features to creating products that truly make a difference. Here’s what stood out to me:
