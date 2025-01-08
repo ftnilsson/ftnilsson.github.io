@@ -3,8 +3,6 @@ layout: post
 title: Continuous Discovery Habits by Teresa Torres
 ---
 
-Continuous Discovery Habits by Teresa Torres
-
 Teresa Torres’ Continuous Discovery Habits is a is a great read for anyone building products. It’s a hands-on guide to embedding customer discovery into your team’s day-to-day work by using/understanding/applying:
 
 * Discovery isn’t a phase—it’s continuous. Successful teams don’t just research once and move on. They constantly engage with customers to uncover new insights and validate decisions.
