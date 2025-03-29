@@ -5,7 +5,7 @@ description: Learn how to implement the new Unity Input System with a reusable p
 tags: unity game-development input-system c-sharp
 ---
 
-# Unity Input System: A Practical Implementation Guide
+Unity Input System: A Practical Implementation Guide
 
 The "new" Unity Input System was officially released as a verified package in Unity 2020.1 (July 2020), offering a robust alternative to the legacy Input Manager. After several years of maturity, it's now the recommended approach for handling input in modern Unity projects.
 
