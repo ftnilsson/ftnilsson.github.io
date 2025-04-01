@@ -5,8 +5,6 @@ description: Is taking screenshots of a menu system driving you crazy? Fear not,
 tags: secrets windows productivity screenshots tips-and-tricks
 ---
 
-# Windows Secrets: Snipping Tool Hidden Gems
-
 Have you ever tried to take a screenshot of an expanded menu? It has been driving me crazy forever, and I usually end up capturing the entire screen and then using an image/photo editing software to cut out the expanded menus. But no longer, since I found this little hidden gem in Windows 10/11: *Snipping Tool*
 
 ## What is the Snipping Tool?
