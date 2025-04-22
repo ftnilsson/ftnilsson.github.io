@@ -1,0 +1,70 @@
+---
+layout: post
+title: Why “Deep Work” Is the Productivity Superpower Every Engineer Needs 
+---
+
+As a technical lead, I’m constantly looking for ways to help my team and myself work smarter, not just harder. Between Slack pings, meetings, and code reviews, the biggest challenge we face isn’t capability, it’s *focus*.
+
+That’s why I recently read the book, Deep Work - Rules for focused success in a distracted world, by Cal Newport. It’s not a new book, but its message feels more relevant than ever in our culture of context switching, multi tasking and being in a state of always online. As a software Engineer (or any other profession where you are a knowledge worker) you *should really* read this book. I am now more dedicated to deep work and I guarantee it will change your way of doing work, and you will see massive improvements..
+
+## The Core Idea
+
+Newport defines deep work as 
+>>“professional activities performed in a state of distraction-free concentration that push your cognitive capabilities to their limit.” 
+
+This means focused work that is not trivial and actually provides value.
+
+The opposite is what Newport defines as 
+>>"shallow work" 
+
+And is everything that fills up our workday but doesn’t really contribute to long term value. Think status meetings, most emails and slack messages.
+
+Newport's thesis is simple:
+
+**The ability to do deep work is becoming rare and more valuable. If you can master it, you’ll stand out.**
+
+## So What Does That Mean for Us in Tech?
+
+We're in a business where thinking clearly, writing elegant code, architecting scalable systems, solving hard problems that deliver business value, are all required and involve uninterrupted focus. But most work environments (even remote ones) aren’t designed for that kind of work.
+
+In the book, Newport lists four rules that I will try to put in to the context of Software Engineering:
+
+1. Work Deeply
+
+* Block out deep work sessions on your calendar (I use 2-hour blocks in the morning and afternoon for heads-down coding, system design or just thinking about a specific problem).
+* Turn off Slack, Team, messenger notifications. YES!!!, it’s okay.
+* Try to make rituals of keeping to this; the same time, same place, same setup.
+
+This has really helped me to create focus, time, and a state of flow, even if I still feel like I have a long way to go to master it completely.
+
+1. Embrace Boredom
+
+Your brain needs downtime to sharpen focus. Constantly flipping between tasks (or scrolling social media between builds) takes energy that affects your ability to concentrate.
+
+   * Don’t fill every gap with "stuff".
+   * Set times when you're allowed to check email or messages.
+   * Practice doing nothing for short stretches.
+
+Focus training is like any other training, the more you do it, the better you will get at it! *Also*, the next time you take a walk, go to the gym or go for a run, try not to fill that time with podcasts, phone calls or any other stuff. *Just be!*
+
+3. Quit Social Media (or Use It Intentionally)
+
+I was never a huge social media fan to start with, but I could easily find myself picking up my mobile phone when relaxing just checking on emails, slack, or just browsing for nothing in particular. Newport and I don't say that you need to go full digital hermit, but ask yourself: Is this tool helping me achieve my goals, or just stealing my attention?
+
+After reading Cal's book, I uninstalled a bunch of apps from my phone and left my telephone out of reach. And you know what... *I feel great for it*! I have reclaimed time and feel less stressed, which in turn has contributed to better productivity.
+
+4. Minimise the Shallow work where ever possible.
+
+We will always need to do some "shallow work" but we can try to control it.
+
+* Push for fewer, shorter meetings (with clear agendas).
+* Batch admin tasks together.
+* Say “NO” to tasks that don’t align with your priorities.
+
+Time is a finite resource! Treat it as such. 
+
+## Final Thoughts
+
+As tech leads, we often talk about performance, architecture, code quality, or delivery timelines. But in my 20 plus years career I have never been taught how to *focus* and how it affects my work, yet deep work might be the most important tool at our disposal.
+
+If we want to build better software or just be a more productive team member, we need to protect the time and space required to actually think. Deep work requires a cultural shift, *and it starts with us!* So next time you get dragged in to an uneccessary meeting, feel yourself reaching for your mobile or getting distracted by a slack ping, think, *is this the best use of my time?* 
