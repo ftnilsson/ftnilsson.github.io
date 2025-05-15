@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The superstruct Manifest - What I take away from this book by Guttman  
+title: The superstruct Manifesto - What I take away from this book by David Guttman  
 ---
 
 The book has some really good take-aways, with a fresh and honest perspective on certain aspects of the tech-industry. I might not *totally* agree with the solution to all of the 10 points in the book, and, I do think some will be difficult to implement in a larger enterprise environment (where most of us work), but none the less, it is a very good read. So much so that I have used the books theroy as a basis to write a manifesto for a team that I presently lead.
@@ -59,3 +59,5 @@ Whether you are a multinational company, a start-up founder, or an entrepeneure,
 
 ## Conclusion
 Our task as software engineers is to create value for a business in a sustainable way. Being agile is not a recipe for sucess and *can* end up stealing valuable time!  
+
+Author's web: [David Guttman](https://davidguttman.com/) 
