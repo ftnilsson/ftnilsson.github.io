@@ -8,10 +8,18 @@ layout: default
   <div class="entry">
     {{ content }}
   </div>
-
   <div class="date">
     Written on {{ page.date | date: "%B %e, %Y" }}
   </div>
+
+  {% if page.tags %}
+  <div class="post-tags">
+    <span>Tags:</span>
+    {% for tag in page.tags %}
+      <a href="{{ site.baseurl }}/tags/#{{ tag | slugify }}" class="tag">{{ tag }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
 
   {% include disqus.html %}
 </article>

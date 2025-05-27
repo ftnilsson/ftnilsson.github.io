@@ -1,6 +1,7 @@
 ---
 layout: post
 title: The superstruct Manifesto - What I take away from this book by David Guttman  
+tags: [books, management, leadership, tech-culture]
 ---
 
 The book has some really good take-aways, with a fresh and honest perspective on certain aspects of the tech-industry. I might not *totally* agree with the solution to all of the 10 points in the book, and, I do think some will be difficult to implement in a larger enterprise environment (where most of us work), but none the less, it is a very good read. So much so that I have used the books theroy as a basis to write a manifesto for a team that I presently lead.

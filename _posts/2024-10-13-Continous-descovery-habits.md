@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Continuous Discovery Habits by Teresa Torres
+tags: [books, product-management, discovery, customer-research]
 ---
 
 Teresa Torres’ Continuous Discovery Habits is a is a great read for anyone building products. It’s a hands-on guide to embedding customer discovery into your team’s day-to-day work by using/understanding/applying:

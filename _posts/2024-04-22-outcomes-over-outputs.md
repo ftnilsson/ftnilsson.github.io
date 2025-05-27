@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Key points from Josh Seiden's book "Outcomes over Outputs"
+tags: [books, product-management, outcomes]
 ---
 
 Spring has sprung and 2024 is of to a great start. I have already completed one certification, AWS Serverless knowledge and being hungry for more knowledge I have piled up a few books that I want to read this year

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Awesome Release Name Generator (my first package)
+tags: [npm, javascript, development, package]
 ---
 
 I have never published an package to `npm` or any other such directories, but I thought it was time to learn. The project is a simple *“release”* name generator like the [haikunator​](https://www.npmjs.com/package/haikunator) but less sofisticated in it’s initial version.

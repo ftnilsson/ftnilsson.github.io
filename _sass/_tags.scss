@@ -1,0 +1,85 @@
+/* Tag styles */
+.post-tags {
+  margin: 15px 0;
+  
+  span {
+    margin-right: 5px;
+    color: $lightGray;
+  }
+  
+  .tag {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 4px 8px;
+    background-color: rgba($blue, 0.8);
+    border-radius: 3px;
+    font-size: 14px;
+    color: $white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background-color: $blue;
+      text-decoration: none;
+    }
+  }
+}
+
+.tags-page {
+  .tag-cloud {
+    margin-bottom: 30px;
+    
+    h2 {
+      margin-bottom: 15px;
+    }
+    
+    .tag {
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      background-color: rgba($blue, 0.8);
+      border-radius: 3px;
+      font-size: 16px;
+      color: $white;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      
+      span {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+      
+      &:hover {
+        background-color: $blue;
+      }
+    }
+  }
+  
+  .tag-sections {
+    section {
+      margin-bottom: 30px;
+      
+      h3 {
+        padding-bottom: 5px;
+        border-bottom: 1px solid $lightGray;
+      }
+      
+      ul {
+        list-style: none;
+        padding-left: 0;
+        
+        li {
+          margin: 10px 0;
+          
+          .post-date {
+            color: $lightGray;
+            font-size: 14px;
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}
