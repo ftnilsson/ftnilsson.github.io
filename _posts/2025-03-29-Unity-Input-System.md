@@ -2,7 +2,7 @@
 layout: post
 title: Unity Input System Setup - A Practical Guide
 description: Learn how to implement the new Unity Input System with a reusable pattern for your game projects
-tags: unity game-development input-system c-sharp
+tags: [unity, game-development, input-system, c-sharp]
 ---
 
 Unity Input System: A Practical Implementation Guide
