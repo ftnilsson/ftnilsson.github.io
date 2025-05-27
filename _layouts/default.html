@@ -29,18 +29,20 @@
           <div class="site-info">
             <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
             <p class="site-description">{{ site.description }}</p>
-          </div>
-
-          <nav>
+          </div>          <nav>
             <!-- <a href="{{ site.baseurl }}/">Blog</a> -->
+            <a href="{{ site.baseurl }}/tags">Tags</a>
             <a href="{{ site.baseurl }}/about">About</a>
           </nav>
         </header>
       </div>
-    </div>
-
-    <div id="main" role="main" class="container">
-      {{ content }}
+    </div>    <div id="main" role="main" class="container">
+      <div class="main-content">
+        {{ content }}
+      </div>
+      <div class="sidebar">
+        {% include popular_tags.html %}
+      </div>
     </div>
 
     <div class="wrapper-footer">

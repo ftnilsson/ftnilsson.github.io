@@ -1,0 +1,11 @@
+<!-- Popular tags sidebar -->
+<div class="sidebar-tags">
+  <h4>Popular Tags</h4>
+  {% assign sorted_tags = site.tags | sort %}
+  {% for tag in sorted_tags limit:10 %}
+    <a href="{{ site.baseurl }}/tags/#{{ tag[0] | slugify }}" class="tag">{{ tag[0] }} ({{ tag[1].size }})</a>
+  {% endfor %}
+  <div class="all-tags-link">
+    <a href="{{ site.baseurl }}/tags/">See all tags</a>
+  </div>
+</div>
