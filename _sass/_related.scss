@@ -1,0 +1,30 @@
+/* Related posts */
+.related-posts {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid $lightGray;
+  
+  h3 {
+    margin-bottom: 15px;
+    color: $lightGray;
+  }
+  
+  ul {
+    list-style: none;
+    padding-left: 0;
+    
+    li {
+      margin-bottom: 10px;
+      
+      a {
+        display: block;
+        font-weight: bold;
+      }
+      
+      small {
+        color: $lightGray;
+        font-size: 14px;
+      }
+    }
+  }
+}

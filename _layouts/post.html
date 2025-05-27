@@ -18,8 +18,9 @@ layout: default
     {% for tag in page.tags %}
       <a href="{{ site.baseurl }}/tags/#{{ tag | slugify }}" class="tag">{{ tag }}</a>
     {% endfor %}
-  </div>
-  {% endif %}
+  </div>  {% endif %}
 
+  {% include related_posts.html %}
+  
   {% include disqus.html %}
 </article>
