@@ -1,0 +1,15 @@
+<div id="cookie-banner" class="cookie-banner">
+  <div class="cookie-banner-content">
+    <div class="cookie-message">
+      This website uses cookies to ensure you get the best experience. By continuing to browse, you agree to our use of cookies.
+      <!-- Optionally add a link to privacy policy if you have one -->
+      {% if site.privacy_policy_url %}
+      <a href="{{ site.privacy_policy_url }}">Learn more</a>
+      {% endif %}
+    </div>
+    <div class="cookie-buttons">
+      <button id="cookie-accept" class="cookie-button cookie-accept">Accept</button>
+      <button id="cookie-decline" class="cookie-button cookie-decline">Decline</button>
+    </div>
+  </div>
+</div>

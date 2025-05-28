@@ -8,6 +8,8 @@
 @import "reset";
 @import "variables";
 @import "tags";
+@import "related";
+@import "cookie-consent";
 // Syntax highlighting @import is at the bottom of this file
 
 /**************/
@@ -217,12 +219,6 @@ img {
   // font-weight: 400;
   font-size: 4rem;
   text-shadow: 0 0 2vw $lightPink;
-
-  a {
-    // animation: neon 1s ease infinite;
-    // -moz-animation: neon 1s ease infinite;
-    // -webkit-animation: neon 1s ease infinite;
-  }
   
   a:hover{
     color: $lightPink;
