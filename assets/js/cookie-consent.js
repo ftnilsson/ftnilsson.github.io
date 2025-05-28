@@ -15,13 +15,19 @@
   function saveConsent(choice) {
     localStorage.setItem('cookieConsent', choice);
   }
-
   // Display the cookie banner if no choice has been made yet
   function showCookieConsentBanner() {
+    console.log('Checking cookie consent status');
+    console.log('Has consented:', hasUserConsented());
+    console.log('Has declined:', hasUserDeclined());
+    
     if (!hasUserConsented() && !hasUserDeclined()) {
+      console.log('Should show banner');
       const banner = document.getElementById('cookie-banner');
+      console.log('Banner element:', banner);
       if (banner) {
         banner.classList.add('show');
+        console.log('Added show class to banner');
       }
     }
   }
@@ -69,15 +75,19 @@
       ga('send', 'pageview');
     }
   }
-
-  // Initialize the banner when the DOM is loaded
-  document.addEventListener('DOMContentLoaded', function() {
+  // Function to initialize everything
+  function initCookieConsent() {
+    console.log('Initializing cookie consent');
+    
     // Check if we should show the banner
     showCookieConsentBanner();
 
     // Add event listeners to buttons
     const acceptButton = document.getElementById('cookie-accept');
     const declineButton = document.getElementById('cookie-decline');
+    
+    console.log('Accept button:', acceptButton);
+    console.log('Decline button:', declineButton);
     
     if (acceptButton) {
       acceptButton.addEventListener('click', handleAccept);
@@ -89,7 +99,16 @@
 
     // Enable analytics if consent was previously given
     if (hasUserConsented()) {
+      console.log('User has previously consented, enabling analytics');
       enableAnalytics();
     }
-  });
+  }
+
+  // Initialize the banner when the DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCookieConsent);
+  } else {
+    // DOM already loaded
+    initCookieConsent();
+  }
 })();
