@@ -16,18 +16,7 @@
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
 
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
-  </head>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RBFTZWJ8Z4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-RBFTZWJ8Z4');
-  </script>
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->  </head>
 
   <body>
     <div class="wrapper-masthead">
@@ -62,8 +51,12 @@
          <div class="credits">this GitHub page is based on <a href="https://github.com/barryclark/jekyll-now" title="jekyll-now">jekyll-now</a></div>
         </footer>
       </div>
-    </div>
-
+    </div>    {% include cookie-banner.html %}
+    
+    <script>
+      window.analyticsId = '{{ site.google_analytics }}';
+    </script>
+    <script src="{{ site.baseurl }}/assets/js/cookie-consent.js"></script>
     {% include analytics.html %}
   </body>
 </html>
