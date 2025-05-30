@@ -5,11 +5,14 @@ layout: default
 <div class="posts">
   {% for post in paginator.posts %}
     <article class="post">
-
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>      <div class="entry">
+      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+      
+      {% include post-list-metadata.html %}
+      
+      <div class="entry">
         {{ post.excerpt }}
       </div>
-
+      
       {% if post.tags %}
       <div class="post-tags">
         <span>Tags:</span>

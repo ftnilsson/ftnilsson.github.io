@@ -1,0 +1,18 @@
+{% comment %}
+Calculate and display post metadata for the post list: posted date and reading time
+{% endcomment %}
+
+{% assign words = post.content | strip_html | number_of_words %}
+{% assign reading_time = words | divided_by: 200.0 | plus: 1 | round %}
+
+<div class="post-list-metadata">
+  <span class="metadata-item posted-date">
+    <i class="fa fa-calendar"></i> {{ post.date | date: "%B %e, %Y" }}
+  </span>
+  
+  <span class="metadata-divider">•</span>
+  
+  <span class="metadata-item reading-time">
+    <i class="fa fa-clock-o"></i> {% if reading_time == 1 %}1 minute{% else %}{{ reading_time }} minutes{% endif %} read
+  </span>
+</div>
