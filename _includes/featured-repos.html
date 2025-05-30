@@ -1,0 +1,22 @@
+<div class="github-repositories">
+  <h2><i class="fa fa-github"></i> Featured GitHub Projects</h2>
+  <div class="repo-cards">
+    {% for repo in site.featured_repositories %}
+      <div class="repo-card">
+        <h3><a href="{{ repo.url }}" target="_blank">{{ repo.name }}</a></h3>
+        <p class="repo-description">{{ repo.description }}</p>
+        <div class="repo-meta">
+          <span class="repo-language">
+            <span class="repo-language-color" style="background-color: {% if repo.language == "C#" %}#178600{% elsif repo.language == "HTML/CSS" %}#e34c26{% elsif repo.language == "JavaScript" %}#f1e05a{% elsif repo.language == "Python" %}#3572A5{% else %}#6e5494{% endif %};"></span>
+            {{ repo.language }}
+          </span>
+          {% if repo.stars > 0 %}
+          <span class="repo-stars">
+            <i class="fa fa-star"></i> {{ repo.stars }}
+          </span>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

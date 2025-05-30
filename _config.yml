@@ -49,6 +49,35 @@ url:
 # then add in the baseurl here, like this: "/repository-name"
 baseurl: ""
 
+# Featured GitHub repositories to highlight on the homepage
+featured_repositories:
+  - name: "generate-release-name-action"
+    description: "Github Action to generate aweseome release names"
+    url: "https://github.com/ftnilsson/generate-release-name-action"
+    language: "YAML"
+    stars: 0
+  - name: "Ctrl+Shift"
+    description: "Hopefully the the future of support and on call sheduling "
+    url: "https://github.com/ftnilsson/Ctrl_Shift"
+    language: "Typescript"
+    stars: 0
+  - name: ".Net core microservice template"
+    description: "A slimed down starter template for .net core microservices"
+    url: "https://github.com/ftnilsson/dotnet_core_microservice_template"
+    language: "C#"
+    stars: 3
+  - name: "Mixit"
+    description: "A simple js solution to mix teams for fun events"
+    url: "https://github.com/ftnilsson/Mixit"
+    language: "Javscript"
+    stars: 0
+  - name: "Unity Packages"
+    description: "Whenever I create a usefull unity package I will post it here"
+    url: "https://github.com/teknoids-studio/unity-packages"
+    language: "Unity"
+    stars: 0 
+
+
 #
 # !! You don't need to change any of the configuration flags below !!
 #
