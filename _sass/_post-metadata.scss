@@ -1,0 +1,33 @@
+/* Post metadata styles */
+.post-metadata {
+  margin: -10px 0 20px 0;
+  color: $lightGray;
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  
+  .metadata-item {
+    display: inline-flex;
+    align-items: center;
+    
+    i {
+      margin-right: 5px;
+    }
+  }
+  
+  .metadata-divider {
+    margin: 0 10px;
+    color: lighten($lightGray, 20%);
+  }
+  
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    
+    .metadata-divider {
+      display: none;
+    }
+  }
+}
