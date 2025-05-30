@@ -1,0 +1,92 @@
+/* GitHub Repositories Section */
+.github-repositories {
+  margin-bottom: 40px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid $lightGray;
+  
+  h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    
+    i {
+      margin-right: 10px;
+    }
+  }
+}
+
+.repo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-gap: 20px;
+}
+
+.repo-card {
+  background: rgba(lighten($darkerGray, 5%), 0.7);
+  border-radius: 6px;
+  padding: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid lighten($darkerGray, 10%);
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    
+    a {
+      color: $blue;
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  .repo-description {
+    color: $lightGray;
+    font-size: 14px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+  }
+  
+  .repo-meta {
+    display: flex;
+    font-size: 12px;
+    color: $lightGray;
+  }
+  
+  .repo-language {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    
+    .repo-language-color {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+  }
+  
+  .repo-stars {
+    display: flex;
+    align-items: center;
+    
+    i {
+      margin-right: 4px;
+      color: #f1c40f;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .repo-cards {
+    grid-template-columns: 1fr;
+  }
+}
