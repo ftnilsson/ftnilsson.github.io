@@ -1,5 +1,7 @@
 <div class="github-repositories">
+  {% if page.url != "/repositories/" %}
   <h2><i class="fa fa-github"></i> Featured GitHub Projects</h2>
+  {% endif %}
   <div class="repo-cards">
     {% for repo in site.featured_repositories %}
       <div class="repo-card">

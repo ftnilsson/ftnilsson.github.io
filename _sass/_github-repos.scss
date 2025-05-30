@@ -1,8 +1,26 @@
+/* GitHub Projects Page */
+.page-intro {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: $lightGray;
+}
+
 /* GitHub Repositories Section */
 .github-repositories {
   margin-bottom: 40px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid $lightGray;
+  
+  // Only add border when on index page or other pages, not on dedicated repo page
+  .page-repositories & {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  
+  // Add border on other pages
+  :not(.page-repositories) & {
+    padding-bottom: 25px;
+    border-bottom: 1px solid $lightGray;
+  }
   
   h2 {
     margin-bottom: 20px;
