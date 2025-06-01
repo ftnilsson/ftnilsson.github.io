@@ -13,9 +13,9 @@ permalink: /tags/
       <a href="#{{ tag[0] | slugify }}" class="tag">{{ tag[0] }} <span>({{ tag[1].size }})</span></a>
     {% endfor %}
   </div>
+
   <div class="tag-sections">
     {% for tag in sorted_tags %}
-      {% include tag-structured-data.html tag_name=tag[0] %}
       <section id="{{ tag[0] | slugify }}">
         <h3>{{ tag[0] }}</h3>
         <ul>
