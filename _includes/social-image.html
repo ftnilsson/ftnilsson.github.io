@@ -1,0 +1,28 @@
+{% comment %}
+  This include generates rich social media and SEO meta tags for post images
+{% endcomment %}
+
+{% if page.image %}
+  {% assign image_path = page.image %}
+{% else %}
+  {% assign image_path = site.default_post_image %}
+{% endif %}
+
+{% if image_path contains '://' %}
+  {% assign image_url = image_path %}
+{% else %}
+  {% assign image_url = site.url | append: site.baseurl | append: image_path %}
+{% endif %}
+
+<!-- Open Graph image -->
+<meta property="og:image" content="{{ image_url }}" />
+<meta property="og:image:alt" content="{% if page.title %}{{ page.title }}{% else %}{{ site.name }}{% endif %}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<!-- Twitter Card image -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="{{ image_url }}" />
+<meta name="twitter:image:alt" content="{% if page.title %}{{ page.title }}{% else %}{{ site.name }}{% endif %}" />
+<meta name="twitter:site" content="@{{ site.footer-links.twitter | default: site.name }}" />
+<meta name="twitter:creator" content="@{{ site.footer-links.twitter | default: site.name }}" />

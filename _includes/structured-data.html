@@ -1,0 +1,83 @@
+{% if page.layout == 'post' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ page.title }}",
+  "name": "{{ page.title }}",
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  {% if page.last_updated %}"dateModified": "{{ page.last_updated | date_to_xmlschema }}",{% else %}"dateModified": "{{ page.date | date_to_xmlschema }}",{% endif %}
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.name }}"{% if site.footer-links.github %},
+    "url": "https://github.com/{{ site.footer-links.github }}"{% endif %}{% if site.footer-links.twitter %},
+    "sameAs": ["https://twitter.com/{{ site.footer-links.twitter }}"]{% endif %}
+  },
+  {% if page.description %}
+  "description": "{{ page.description | strip_html | strip_newlines | truncate: 160 }}",
+  {% elsif page.excerpt %}
+  "description": "{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}",
+  {% endif %}
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ site.url }}{{ site.baseurl }}{{ page.url }}"
+  },
+  {% if page.image %}
+  "image": {
+    "@type": "ImageObject",
+    "url": "{% if page.image contains '://' %}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% endif %}",
+    "width": "1200",
+    "height": "630"
+  },
+  {% elsif site.default_post_image %}
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ site.url }}{{ site.baseurl }}{{ site.default_post_image }}",
+    "width": "1200",
+    "height": "630"
+  },
+  {% endif %}
+  {% if page.tags %}
+  "keywords": "{{ page.tags | join: ', ' }}",
+  {% endif %}
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.name }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.avatar }}"
+    }
+  },
+  "articleSection": "{% if page.category %}{{ page.category }}{% else %}Blog{% endif %}",
+  "inLanguage": "en-US"
+}
+</script>
+{% endif %}
+
+{% if page.layout != 'post' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site.name }}",
+  "description": "{{ site.description }}",
+  "url": "{{ site.url }}{{ site.baseurl }}/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ site.url }}{{ site.baseurl }}/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  },
+  "inLanguage": "en-US"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ site.name }}",
+  "url": "{{ site.url }}{{ site.baseurl }}/",
+  {% if site.footer-links.github %}"sameAs": ["https://github.com/{{ site.footer-links.github }}"]{% endif %}
+}
+</script>
+{% endif %}
