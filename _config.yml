@@ -11,6 +11,9 @@ description: The GitHub home of a Señor Dev.
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://avatars.githubusercontent.com/u/711200
 
+# Default image to use for posts that don't specify an image
+default_post_image: /images/default-post-image.jpg
+
 #
 # Flags below are optional
 #

@@ -5,18 +5,28 @@
   "@type": "BlogPosting",
   "headline": "{{ page.title }}",
   "datePublished": "{{ page.date | date_to_xmlschema }}",
-  {% if page.last_updated %}"dateModified": "{{ page.last_updated | date_to_xmlschema }}",{% endif %}
-  "author": {
+  {% if page.last_updated %}"dateModified": "{{ page.last_updated | date_to_xmlschema }}",{% endif %}  "author": {
     "@type": "Person",
-    "name": "{{ site.name }}"
+    "name": "{{ site.name }}"{% if site.footer-links.github %},
+    "url": "https://github.com/{{ site.footer-links.github }}"{% endif %}
   },
-  {% if page.excerpt %}
+  {% if page.description %}
+  "description": "{{ page.description | strip_html | strip_newlines | truncate: 160 }}",
+  {% elsif page.excerpt %}
   "description": "{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}",
   {% endif %}
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ site.url }}{{ site.baseurl }}{{ page.url }}"
   },
+  {% if page.image %}
+  "image": {
+    "@type": "ImageObject",
+    "url": "{% if page.image contains '://' %}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% endif %}",
+    "width": "1200",
+    "height": "630"
+  },
+  {% endif %}
   {% if page.tags %}
   "keywords": "{{ page.tags | join: ', ' }}",
   {% endif %}  "publisher": {
