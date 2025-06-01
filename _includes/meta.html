@@ -20,8 +20,9 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ site.url }}{{ site.baseurl }}{{ page.url | replace:'index.html','' }}">
-      <!-- OpenGraph metadata -->
+    
+    <!-- OpenGraph metadata -->
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
     <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url | replace:'index.html','' }}">
-    <meta property="og:site_name" content="{{ site.name }}">
+    <meta property="og:site_name" content="{{ site.name }}"

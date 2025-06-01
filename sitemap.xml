@@ -37,9 +37,10 @@ sitemap:
     </url>
     {% endunless %}
   {% endfor %}
-    {% for tag in site.tags %}
+  
+  {% for tag in site.tags %}
   <url>
-    <loc>{{ site.url }}{{ site.baseurl }}/tag/{{ tag[0] | slugify }}/</loc>
+    <loc>{{ site.url }}{{ site.baseurl }}/tags/#{{ tag[0] | slugify }}</loc>
     <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
