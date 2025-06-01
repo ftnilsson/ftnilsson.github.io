@@ -1,9 +1,10 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "CollectionPage",  "headline": "Posts tagged with '{{ include.tag_name }}'",
+  "@type": "CollectionPage",
+  "headline": "Posts tagged with '{{ include.tag_name }}'",
   "description": "Collection of blog posts tagged with '{{ include.tag_name }}' on {{ site.name }}",
-  "url": "{{ site.url }}{{ site.baseurl }}/tag/{{ include.tag_name | slugify }}/",
+  "url": "{{ site.url }}{{ site.baseurl }}/tags/#{{ include.tag_name | slugify }}",
   "publisher": {
     "@type": "Organization",
     "name": "{{ site.name }}",
