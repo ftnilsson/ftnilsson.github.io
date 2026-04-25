@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEÑOR_DEVELOPER.EXE — Prototype 1: CRT Terminal</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --g:     #33ff33;
+    --g-dim: #1c7a1c;
+    --g-hi:  #88ff88;
+    --bg:    #040904;
+    --bg2:   #080f08;
+    --amber: #ffb300;
+    --yellow:#ccff00;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html { background: #000; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--g);
+    font-family: 'VT323', 'Courier New', monospace;
+    font-size: 20px;
+    line-height: 1.5;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* ── CRT scanlines ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px, transparent 3px,
+      rgba(0,0,0,0.22) 3px, rgba(0,0,0,0.22) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── CRT vignette ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.85) 100%);
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  @keyframes flicker {
+    0%   { opacity: 1; }
+    92%  { opacity: 1; }
+    93%  { opacity: 0.92; }
+    94%  { opacity: 1; }
+    98%  { opacity: 1; }
+    99%  { opacity: 0.88; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { text-shadow: 0 0 6px var(--g), 0 0 14px var(--g); }
+    50%       { text-shadow: 0 0 10px var(--g-hi), 0 0 24px var(--g), 0 0 48px var(--g-dim); }
+  }
+
+  .screen {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 20px 24px 30px;
+    animation: flicker 12s infinite;
+  }
+
+  /* ════════════════════════════ HEADER ════════════════════════════ */
+  .header {
+    border: 1px solid var(--g-dim);
+    padding: 18px 22px 14px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 24px rgba(51,255,51,0.15), inset 0 0 30px rgba(0,20,0,0.4);
+    position: relative;
+  }
+
+  .header-sys-line {
+    font-size: 13px;
+    color: var(--g-dim);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .header-sys-line span { color: var(--amber); }
+
+  .site-title {
+    font-size: 62px;
+    letter-spacing: 5px;
+    line-height: 1;
+    color: var(--g-hi);
+    animation: glow-pulse 4s ease-in-out infinite;
+  }
+
+  .site-subtitle {
+    font-size: 16px;
+    color: var(--g-dim);
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+
+  .site-subtitle em { color: var(--g); font-style: normal; }
+
+  .status-bar {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--g-dim);
+    display: flex; flex-wrap: wrap; gap: 24px;
+    font-size: 13px; color: var(--g-dim);
+  }
+
+  .status-item::before { content: '● '; color: var(--g); font-size: 9px; vertical-align: middle; }
+
+  /* ════════════════════════════ NAV ════════════════════════════ */
+  nav.terminal-nav {
+    display: flex;
+    border: 1px solid var(--g-dim);
+    margin-bottom: 20px;
+    box-shadow: 0 0 12px rgba(51,255,51,0.1);
+    overflow: hidden;
+  }
+
+  .nav-key {
+    display: block;
+    background: var(--g);
+    color: var(--bg);
+    padding: 7px 18px;
+    text-decoration: none;
+    font-size: 17px;
+    letter-spacing: 1px;
+    border-right: 1px solid var(--bg2);
+    transition: background 0.1s, color 0.1s;
+    white-space: nowrap;
+  }
+
+  .nav-key em { font-style: normal; opacity: 0.55; font-size: 13px; }
+
+  .nav-key:hover, .nav-key.active {
+    background: var(--g-hi);
+    color: #000;
+  }
+
+  .nav-prompt {
+    flex: 1;
+    padding: 7px 16px;
+    color: var(--g-dim);
+    font-size: 16px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .cursor {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+    color: var(--g);
+  }
+
+  /* ════════════════════════════ LAYOUT ════════════════════════════ */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 290px;
+    gap: 20px;
+  }
+
+  /* ────── POSTS ────── */
+  .posts-dir-line {
+    font-size: 14px;
+    color: var(--g-dim);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+
+  .post-card {
+    border: 1px solid var(--g-dim);
+    margin-bottom: 20px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    position: relative;
+  }
+
+  .post-card:hover {
+    border-color: var(--g);
+    box-shadow: 0 0 18px rgba(51,255,51,0.25);
+  }
+
+  .post-card-bar {
+    background: rgba(51,255,51,0.05);
+    border-bottom: 1px solid var(--g-dim);
+    padding: 6px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--g-dim);
+    letter-spacing: 1px;
+  }
+
+  .post-id { color: var(--yellow); }
+
+  .post-body { padding: 16px 18px; }
+
+  .post-title {
+    font-size: 26px;
+    color: var(--g-hi);
+    text-shadow: 0 0 8px var(--g);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .post-title::before { content: '> '; color: var(--g-dim); }
+
+  .post-excerpt {
+    font-size: 17px;
+    color: var(--g-dim);
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+
+  .post-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--g-dim);
+    margin-bottom: 12px;
+  }
+
+  .pbar {
+    width: 120px; height: 8px;
+    border: 1px solid var(--g-dim);
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .pbar-fill {
+    height: 100%;
+    background: var(--g);
+    box-shadow: 0 0 6px var(--g);
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+    font-size: 14px;
+  }
+
+  .post-date::before { content: 'DATE:' ; color: var(--g-dim); margin-right: 5px; }
+  .post-date { color: var(--amber); }
+
+  .post-read::before { content: 'READ:'; color: var(--g-dim); margin-right: 5px; }
+  .post-read { color: var(--amber); }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+
+  .tag {
+    font-size: 13px;
+    color: var(--yellow);
+    border: 1px solid var(--g-dim);
+    padding: 1px 7px;
+  }
+
+  .tag::before { content: '#'; color: var(--g-dim); }
+
+  .read-more {
+    display: inline-block;
+    color: var(--g);
+    text-decoration: none;
+    font-size: 17px;
+    padding: 3px 14px;
+    border: 1px solid var(--g-dim);
+    transition: all 0.1s;
+  }
+
+  .read-more::after { content: '_'; animation: blink 1s step-end infinite; }
+
+  .read-more:hover {
+    border-color: var(--g);
+    background: rgba(51,255,51,0.08);
+    box-shadow: 0 0 10px rgba(51,255,51,0.2);
+  }
+
+  /* ────── SIDEBAR ────── */
+  .sidebar { display: flex; flex-direction: column; gap: 18px; }
+
+  .sbox {
+    border: 1px solid var(--g-dim);
+    box-shadow: 0 0 12px rgba(51,255,51,0.07);
+  }
+
+  .sbox-head {
+    background: rgba(51,255,51,0.07);
+    border-bottom: 1px solid var(--g-dim);
+    padding: 7px 14px;
+    font-size: 13px;
+    color: var(--g-dim);
+    letter-spacing: 2px;
+  }
+
+  .sbox-body { padding: 14px; }
+
+  /* About box */
+  .avatar-wrap { text-align: center; margin-bottom: 12px; }
+
+  .avatar {
+    width: 76px; height: 76px;
+    border-radius: 50%;
+    border: 2px solid var(--g);
+    box-shadow: 0 0 14px var(--g-dim);
+    display: block;
+    margin: 0 auto 8px;
+    background: var(--bg2);
+  }
+
+  .about-name {
+    font-size: 22px;
+    color: var(--g-hi);
+    text-shadow: 0 0 8px var(--g);
+    letter-spacing: 1px;
+  }
+
+  .stat-list { font-size: 15px; margin-top: 10px; }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(51,255,51,0.12);
+  }
+
+  .stat-label { color: var(--g-dim); }
+  .stat-val   { color: var(--amber); }
+
+  /* Tag list */
+  .tag-cloud {
+    display: flex; flex-wrap: wrap; gap: 7px;
+    list-style: none;
+  }
+
+  .tag-cloud a {
+    font-size: 14px;
+    color: var(--g-dim);
+    text-decoration: none;
+    border: 1px solid var(--g-dim);
+    padding: 2px 8px;
+    display: flex; align-items: center; gap: 5px;
+    transition: all 0.1s;
+  }
+
+  .tag-cloud a::before { content: '#'; }
+
+  .tag-cloud a span {
+    font-size: 11px;
+    color: var(--yellow);
+    opacity: 0.8;
+  }
+
+  .tag-cloud a:hover {
+    color: var(--g);
+    border-color: var(--g);
+    box-shadow: 0 0 8px rgba(51,255,51,0.25);
+  }
+
+  /* ────── PAGINATION ────── */
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 18px;
+  }
+
+  .page-link, .page-cur, .page-ellipsis {
+    padding: 5px 14px;
+    border: 1px solid var(--g-dim);
+    text-decoration: none;
+    color: var(--g);
+  }
+
+  .page-link:hover { background: rgba(51,255,51,0.08); border-color: var(--g); }
+  .page-cur { background: var(--g); color: var(--bg); border-color: var(--g); }
+  .page-ellipsis { color: var(--g-dim); border-color: transparent; }
+
+  /* ════════════════════════════ FOOTER ════════════════════════════ */
+  footer.terminal-footer {
+    margin-top: 24px;
+    border: 1px solid var(--g-dim);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--g-dim);
+    box-shadow: 0 0 16px rgba(51,255,51,0.08);
+  }
+
+  footer .prompt-end { color: var(--g); }
+  footer .copy-note  { letter-spacing: 1px; }
+  footer .eof { color: var(--yellow); font-size: 16px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+    .site-title { font-size: 40px; }
+    .nav-key { padding: 7px 12px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="screen">
+
+  <!-- ══════════ HEADER ══════════ -->
+  <header class="header">
+    <div class="header-sys-line">
+      SEÑOR_DEVELOPER.SYS&nbsp;&nbsp;<span>v20.0</span>&nbsp;&nbsp;::&nbsp;&nbsp;INITIALIZED&nbsp;&nbsp;::&nbsp;&nbsp;ALL SYSTEMS NOMINAL
+    </div>
+    <div class="site-title">SEÑOR DEVELOPER</div>
+    <div class="site-subtitle">// THE GITHUB HOME OF A <em>SEÑOR DEV</em> — 20+ YEARS IN THE TRENCHES</div>
+    <div class="status-bar">
+      <span class="status-item">SYSTEM: ONLINE</span>
+      <span class="status-item">DATE: 2025-04-25</span>
+      <span class="status-item">UPTIME: 20+ YRS</span>
+      <span class="status-item">STACK: .NET / AZURE</span>
+      <span class="status-item">ROLE: TECH LEAD</span>
+      <span class="status-item">HOBBY: GAMING</span>
+    </div>
+  </header>
+
+  <!-- ══════════ NAV ══════════ -->
+  <nav class="terminal-nav" aria-label="Main navigation">
+    <a class="nav-key active" href="#"><em>F1:</em>HOME</a>
+    <a class="nav-key" href="#"><em>F2:</em>POSTS</a>
+    <a class="nav-key" href="#"><em>F3:</em>ABOUT</a>
+    <a class="nav-key" href="#"><em>F4:</em>TAGS</a>
+    <a class="nav-key" href="#"><em>F5:</em>GITHUB</a>
+    <div class="nav-prompt">C:\SEÑOR_DEV&gt;&nbsp;<span class="cursor">█</span></div>
+  </nav>
+
+  <!-- ══════════ MAIN LAYOUT ══════════ -->
+  <div class="layout">
+
+    <!-- ────── POSTS ────── -->
+    <main>
+      <div class="posts-dir-line">&gt;&gt; DIR /POSTS/LATEST — FOUND 5 ENTRIES, SHOWING 3</div>
+
+      <!-- POST 1 -->
+      <article class="post-card">
+        <div class="post-card-bar">
+          <span>FILE: DEEP_WORK.MD</span>
+          <span class="post-id">#042</span>
+        </div>
+        <div class="post-body">
+          <h2 class="post-title">WHY "DEEP WORK" IS THE PRODUCTIVITY SUPERPOWER EVERY ENGINEER NEEDS</h2>
+          <p class="post-excerpt">
+            In today's hyper-connected world, the ability to focus without distraction is becoming
+            increasingly rare — and increasingly valuable. Cal Newport calls it Deep Work, and after
+            20 years of shipping software I think it's the single most underrated engineering skill.
+          </p>
+          <div class="post-progress">
+            <span>LOAD:</span>
+            <div class="pbar"><div class="pbar-fill" style="width:70%"></div></div>
+            <span>6&nbsp;MIN READ</span>
+          </div>
+          <div class="post-meta">
+            <span class="post-date">2025-04-21</span>
+            <span class="post-read">6 MIN</span>
+            <div class="tags">
+              <span class="tag">books</span>
+              <span class="tag">productivity</span>
+              <span class="tag">focus</span>
+              <span class="tag">engineering</span>
+            </div>
+          </div>
+          <a class="read-more" href="#">[ LOAD FILE ]</a>
+        </div>
+      </article>
+
+      <!-- POST 2 -->
+      <article class="post-card">
+        <div class="post-card-bar">
+          <span>FILE: MICROSERVICE_PATTERNS.MD</span>
+          <span class="post-id">#041</span>
+        </div>
+        <div class="post-body">
+          <h2 class="post-title">MICROSERVICE PATTERNS THAT ACTUALLY SURVIVE CONTACT WITH PRODUCTION</h2>
+          <p class="post-excerpt">
+            After watching dozens of microservice architectures crumble in production across two
+            decades, I've compiled the patterns that hold up when reality kicks in. Spoiler: it's
+            not about the framework, it's about the contracts between services.
+          </p>
+          <div class="post-progress">
+            <span>LOAD:</span>
+            <div class="pbar"><div class="pbar-fill" style="width:100%"></div></div>
+            <span>10&nbsp;MIN READ</span>
+          </div>
+          <div class="post-meta">
+            <span class="post-date">2025-03-15</span>
+            <span class="post-read">10 MIN</span>
+            <div class="tags">
+              <span class="tag">azure</span>
+              <span class="tag">dotnet</span>
+              <span class="tag">architecture</span>
+            </div>
+          </div>
+          <a class="read-more" href="#">[ LOAD FILE ]</a>
+        </div>
+      </article>
+
+      <!-- POST 3 -->
+      <article class="post-card">
+        <div class="post-card-bar">
+          <span>FILE: TECH_LEAD_LESSONS.MD</span>
+          <span class="post-id">#040</span>
+        </div>
+        <div class="post-body">
+          <h2 class="post-title">10 THINGS I WISH I KNEW BEFORE BECOMING A TECH LEAD</h2>
+          <p class="post-excerpt">
+            The jump from senior developer to tech lead is not a promotion — it's a career change.
+            You stop optimising your own output and start amplifying an entire team's. Here's the
+            unfiltered truth nobody puts in the job description.
+          </p>
+          <div class="post-progress">
+            <span>LOAD:</span>
+            <div class="pbar"><div class="pbar-fill" style="width:55%"></div></div>
+            <span>5&nbsp;MIN READ</span>
+          </div>
+          <div class="post-meta">
+            <span class="post-date">2025-02-28</span>
+            <span class="post-read">5 MIN</span>
+            <div class="tags">
+              <span class="tag">leadership</span>
+              <span class="tag">career</span>
+              <span class="tag">engineering</span>
+            </div>
+          </div>
+          <a class="read-more" href="#">[ LOAD FILE ]</a>
+        </div>
+      </article>
+
+      <!-- PAGINATION -->
+      <nav class="pagination" aria-label="Pagination">
+        <span class="page-cur">01</span>
+        <a class="page-link" href="#">02</a>
+        <a class="page-link" href="#">03</a>
+        <span class="page-ellipsis">...</span>
+        <a class="page-link" href="#">09</a>
+        <a class="page-link" href="#">[ NEXT PAGE &gt;&gt; ]</a>
+      </nav>
+    </main>
+
+    <!-- ────── SIDEBAR ────── -->
+    <aside class="sidebar" aria-label="Sidebar">
+
+      <!-- ABOUT -->
+      <div class="sbox">
+        <div class="sbox-head">// ABOUT.DAT</div>
+        <div class="sbox-body">
+          <div class="avatar-wrap">
+            <img class="avatar"
+                 src="https://avatars.githubusercontent.com/ftnilsson"
+                 alt="Fredrik Nilsson avatar"
+                 onerror="this.style.background='#1c7a1c'">
+            <div class="about-name">FREDRIK NILSSON</div>
+          </div>
+          <div class="stat-list">
+            <div class="stat-row"><span class="stat-label">ROLE:</span><span class="stat-val">TECH LEAD</span></div>
+            <div class="stat-row"><span class="stat-label">EXP:</span><span class="stat-val">20+ YEARS</span></div>
+            <div class="stat-row"><span class="stat-label">STACK:</span><span class="stat-val">.NET / AZURE</span></div>
+            <div class="stat-row"><span class="stat-label">HOBBIES:</span><span class="stat-val">GAMING / RETRO</span></div>
+            <div class="stat-row"><span class="stat-label">STATUS:</span><span class="stat-val">ONLINE ●</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAGS -->
+      <div class="sbox">
+        <div class="sbox-head">// POPULAR_TAGS.DAT</div>
+        <div class="sbox-body">
+          <ul class="tag-cloud">
+            <li><a href="#">books <span>[08]</span></a></li>
+            <li><a href="#">azure <span>[06]</span></a></li>
+            <li><a href="#">dotnet <span>[05]</span></a></li>
+            <li><a href="#">productivity <span>[04]</span></a></li>
+            <li><a href="#">leadership <span>[04]</span></a></li>
+            <li><a href="#">gaming <span>[03]</span></a></li>
+            <li><a href="#">architecture <span>[03]</span></a></li>
+            <li><a href="#">career <span>[03]</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SYSTEM NFO -->
+      <div class="sbox">
+        <div class="sbox-head">// SYSTEM.NFO</div>
+        <div class="sbox-body">
+          <div class="stat-list">
+            <div class="stat-row"><span class="stat-label">ENGINE:</span><span class="stat-val">JEKYLL</span></div>
+            <div class="stat-row"><span class="stat-label">HOST:</span><span class="stat-val">GITHUB PAGES</span></div>
+            <div class="stat-row"><span class="stat-label">POSTS:</span><span class="stat-val">42</span></div>
+            <div class="stat-row"><span class="stat-label">LANG:</span><span class="stat-val">MARKDOWN</span></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer class="terminal-footer">
+    <div class="prompt-end">C:\SEÑOR_DEV&gt;&nbsp;<span class="cursor">█</span></div>
+    <div class="copy-note">© 2025 FREDRIK NILSSON — ALL RIGHTS RESERVED</div>
+    <div class="eof">[ EOF ]</div>
+  </footer>
+
+</div><!-- .screen -->
+</body>
+</html>

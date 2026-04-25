@@ -7,19 +7,19 @@ Calculate and display post metadata: posted date, updated date, and reading time
 
 <div class="post-metadata">
   <span class="metadata-item posted-date">
-    <i class="fa fa-calendar"></i> Posted: {{ page.date | date: "%B %e, %Y" }}
+    POSTED: {{ page.date | date: "%Y-%m-%d" }}
   </span>
-  
-  <span class="metadata-divider">•</span>
-  
+
+  <span class="metadata-divider">|</span>
+
   {% if page.last_updated %}
   <span class="metadata-item updated-date">
-    <i class="fa fa-refresh"></i> Updated: {{ page.last_updated | date: "%B %e, %Y" }}
+    UPDATED: {{ page.last_updated | date: "%Y-%m-%d" }}
   </span>
-  <span class="metadata-divider">•</span>
+  <span class="metadata-divider">|</span>
   {% endif %}
-  
+
   <span class="metadata-item reading-time">
-    <i class="fa fa-clock-o"></i> {% if reading_time == 1 %}1 minute{% else %}{{ reading_time }} minutes{% endif %} read
+    READ: {% if reading_time == 1 %}1 MIN{% else %}{{ reading_time }} MIN{% endif %}
   </span>
 </div>

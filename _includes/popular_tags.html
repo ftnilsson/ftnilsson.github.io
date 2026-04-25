@@ -1,11 +1,15 @@
-<!-- Popular tags sidebar -->
-<div class="sidebar-tags">
-  <h4>Popular Tags</h4>
-  {% assign sorted_tags = site.tags | sort %}
-  {% for tag in sorted_tags limit:10 %}
-    <a href="{{ site.baseurl }}/tags/#{{ tag[0] | slugify }}" class="tag">{{ tag[0] }} ({{ tag[1].size }})</a>
-  {% endfor %}
-  <div class="all-tags-link">
-    <a href="{{ site.baseurl }}/tags/">See all tags</a>
+<div class="sbox">
+  <div class="sbox-head">// POPULAR_TAGS.DAT</div>
+  <div class="sbox-body">
+    <ul class="tag-cloud">
+      {% assign sorted_tags = site.tags | sort %}
+      {% for tag in sorted_tags limit: 12 %}
+        <li>
+          <a href="{{ site.baseurl }}/tags/#{{ tag[0] | slugify }}">
+            {{ tag[0] }} <span>[{% if tag[1].size < 10 %}0{% endif %}{{ tag[1].size }}]</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
   </div>
 </div>

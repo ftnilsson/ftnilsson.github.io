@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEÑOR DEVELOPER QUEST — Prototype 2: 8-bit Arcade RPG</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0f0f23;
+    --bg2:     #16162a;
+    --bg3:     #1e1e38;
+    --gold:    #f7c948;
+    --gold-hi: #ffe57a;
+    --cyan:    #38d9f5;
+    --red:     #e64040;
+    --green:   #4cd66e;
+    --purple:  #9b72cf;
+    --silver:  #c8c8c8;
+    --white:   #f0f0f0;
+    --dim:     #5a5a8a;
+    --border:  #3a3a6a;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--white);
+    min-height: 100vh;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+  }
+
+  /* ── Stars ── */
+  #stars {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle linear infinite;
+  }
+
+  @keyframes twinkle {
+    0%   { opacity: 0.1; }
+    50%  { opacity: 1;   }
+    100% { opacity: 0.1; }
+  }
+
+  @keyframes blink-sel {
+    0%, 49% { opacity: 1; }
+    50%,100% { opacity: 0; }
+  }
+
+  @keyframes float-up {
+    from { transform: translateY(4px); }
+    to   { transform: translateY(-4px); }
+  }
+
+  @keyframes pulse-border {
+    0%,100% { box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--gold); }
+    50%      { box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--gold-hi), 0 0 20px rgba(247,201,72,0.4); }
+  }
+
+  /* ── Pixel box helper ── */
+  .px-box {
+    border: 3px solid var(--gold);
+    box-shadow:
+      0 0 0 1px var(--bg),
+      0 0 0 4px var(--gold),
+      0 0 0 5px var(--bg),
+      inset 0 0 0 1px rgba(255,255,255,0.06);
+    background: var(--bg2);
+  }
+
+  /* ═══════════════════════════════════ HUD BAR ═══════════════════════════════════ */
+  .hud {
+    position: relative; z-index: 10;
+    background: #000;
+    border-bottom: 3px solid var(--gold);
+    box-shadow: 0 0 0 1px var(--bg), 0 2px 0 var(--gold);
+    padding: 8px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+  }
+
+  .hud-score  { color: var(--gold); }
+  .hud-score span { color: var(--gold-hi); margin-left: 8px; }
+
+  .hud-lives  { color: var(--red); letter-spacing: 4px; }
+
+  .hud-level  { color: var(--cyan); }
+  .hud-level span { color: var(--white); margin-left: 8px; }
+
+  /* ═══════════════════════════════════ SCREEN ═══════════════════════════════════ */
+  .screen {
+    position: relative; z-index: 1;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 28px 24px 36px;
+  }
+
+  /* ═══════════════════════════════════ HEADER ═══════════════════════════════════ */
+  header.game-header {
+    text-align: center;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .header-subtitle {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--dim);
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+
+  .site-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 36px;
+    color: var(--gold);
+    line-height: 1.4;
+    text-shadow:
+      3px 3px 0 #7a5c00,
+      0 0 30px rgba(247,201,72,0.5);
+    animation: float-up 2.5s ease-in-out infinite alternate;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .site-tagline {
+    font-size: 13px;
+    color: var(--dim);
+    letter-spacing: 1px;
+  }
+
+  .site-tagline em { color: var(--cyan); font-style: normal; }
+
+  /* class badges */
+  .class-badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 5px 10px;
+    border: 2px solid;
+    text-transform: uppercase;
+  }
+
+  .badge-gold   { color: var(--gold);   border-color: var(--gold);   }
+  .badge-cyan   { color: var(--cyan);   border-color: var(--cyan);   }
+  .badge-green  { color: var(--green);  border-color: var(--green);  }
+  .badge-purple { color: var(--purple); border-color: var(--purple); }
+
+  /* ═══════════════════════════════════ NAV ═══════════════════════════════════ */
+  nav.game-nav {
+    margin-bottom: 28px;
+  }
+
+  .nav-inner {
+    border: 3px solid var(--border);
+    box-shadow: 0 0 0 1px var(--bg), 0 0 0 3px var(--border), inset 0 0 0 1px rgba(255,255,255,0.04);
+    background: rgba(0,0,10,0.7);
+    display: flex;
+    overflow: hidden;
+  }
+
+  .nav-link {
+    display: block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 12px 18px;
+    color: var(--dim);
+    text-decoration: none;
+    border-right: 1px solid var(--border);
+    transition: color 0.1s, background 0.1s;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .nav-link::before { content: '  '; }
+
+  .nav-link:hover, .nav-link.active {
+    color: var(--gold);
+    background: rgba(247,201,72,0.07);
+  }
+
+  .nav-link.active::before { content: '▶ '; animation: blink-sel 1s step-end infinite; }
+
+  .nav-spacer { flex: 1; background: rgba(0,0,10,0.7); }
+
+  /* ═══════════════════════════════════ LAYOUT ═══════════════════════════════════ */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ════ QUEST LOG ════ */
+  .quest-log-header {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .quest-log-header::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+
+  /* Post card */
+  .post-card {
+    border: 3px solid var(--border);
+    background: var(--bg2);
+    margin-bottom: 22px;
+    box-shadow:
+      0 0 0 1px var(--bg),
+      0 0 0 4px var(--border),
+      0 0 0 5px var(--bg),
+      4px 4px 0 rgba(0,0,0,0.5);
+    position: relative;
+    transition: border-color 0.15s;
+  }
+
+  .post-card:hover {
+    border-color: var(--gold);
+    box-shadow:
+      0 0 0 1px var(--bg),
+      0 0 0 4px var(--gold),
+      0 0 0 5px var(--bg),
+      4px 4px 0 rgba(0,0,0,0.5),
+      0 0 20px rgba(247,201,72,0.2);
+  }
+
+  .post-card-top {
+    background: rgba(0,0,0,0.4);
+    border-bottom: 2px solid var(--border);
+    padding: 8px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .post-type {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--gold);
+  }
+
+  .post-type.side-quest { color: var(--cyan); }
+
+  .post-num {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--dim);
+  }
+
+  .post-body { padding: 16px 18px 14px; }
+
+  .post-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    color: var(--white);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+  }
+
+  .post-title a { color: inherit; text-decoration: none; }
+  .post-title a:hover { color: var(--gold); }
+
+  .post-excerpt {
+    font-size: 14px;
+    color: var(--silver);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  /* HP / read-time bar */
+  .read-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    color: var(--dim);
+  }
+
+  .read-bar-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+
+  .read-bar {
+    flex: 1;
+    max-width: 160px;
+    height: 10px;
+    background: #000;
+    border: 2px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .read-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--green), var(--cyan));
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  .read-time-val {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  .post-date {
+    color: var(--dim);
+    font-size: 12px;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .tag {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    padding: 3px 7px;
+    opacity: 0.75;
+  }
+
+  .tag:hover { opacity: 1; }
+
+  .post-footer {
+    border-top: 1px solid var(--border);
+    padding: 10px 18px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .read-more {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--bg);
+    background: var(--gold);
+    border: 2px solid var(--gold-hi);
+    padding: 8px 14px;
+    text-decoration: none;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+    transition: transform 0.1s, box-shadow 0.1s;
+    display: inline-block;
+  }
+
+  .read-more:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+    background: var(--gold-hi);
+  }
+
+  .read-more:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  }
+
+  /* ── PAGINATION ── */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+  }
+
+  .page-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--bg3);
+    border: 2px solid var(--border);
+    color: var(--silver);
+    text-decoration: none;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+    transition: all 0.1s;
+  }
+
+  .page-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+  }
+
+  .page-btn.active {
+    background: var(--gold);
+    color: #000;
+    border-color: var(--gold-hi);
+  }
+
+  .page-info {
+    color: var(--dim);
+    font-size: 8px;
+  }
+
+  /* ════ SIDEBAR ════ */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+  .sbox {
+    border: 3px solid var(--border);
+    background: var(--bg2);
+    box-shadow:
+      0 0 0 1px var(--bg),
+      0 0 0 4px var(--border),
+      0 0 0 5px var(--bg),
+      3px 3px 0 rgba(0,0,0,0.5);
+  }
+
+  .sbox-head {
+    background: rgba(0,0,0,0.4);
+    border-bottom: 2px solid var(--border);
+    padding: 8px 14px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--gold);
+  }
+
+  .sbox-body { padding: 14px; }
+
+  /* Player card */
+  .player-avatar {
+    display: block;
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 12px rgba(247,201,72,0.4);
+    margin: 0 auto 10px;
+    background: var(--bg);
+    animation: pulse-border 3s ease-in-out infinite;
+  }
+
+  .player-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  .stat-rows { font-size: 12px; }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--dim);
+  }
+
+  .stat-row span:last-child { color: var(--silver); }
+
+  /* Skill bars */
+  .skills { margin-top: 10px; }
+
+  .skill {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+
+  .skill-name {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--dim);
+  }
+
+  .skill-name span:last-child { color: var(--silver); }
+
+  .skill-bar {
+    height: 8px;
+    background: #000;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-fill {
+    height: 100%;
+    position: relative;
+  }
+
+  .skill-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to right,
+      transparent 0px, transparent 3px,
+      rgba(0,0,0,0.4) 3px, rgba(0,0,0,0.4) 4px
+    );
+  }
+
+  /* Tag cloud */
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
+
+  .tag-cloud a {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.1s;
+  }
+
+  .tag-cloud a:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: 0 0 8px rgba(56,217,245,0.3);
+  }
+
+  .tag-cloud a span { color: var(--gold); opacity: 0.7; }
+
+  /* Achievements */
+  .achievements { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+  .achievement {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--dim);
+    padding: 6px;
+    border: 1px solid rgba(255,255,255,0.04);
+    background: rgba(0,0,0,0.2);
+  }
+
+  .ach-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+  }
+
+  .ach-text { line-height: 1.4; }
+  .ach-text strong { display: block; color: var(--silver); font-size: 11px; margin-bottom: 1px; }
+
+  /* ═══════════════════════════════════ FOOTER ═══════════════════════════════════ */
+  footer.game-footer {
+    margin-top: 30px;
+    text-align: center;
+    padding: 20px;
+    border: 3px solid var(--border);
+    box-shadow:
+      0 0 0 1px var(--bg),
+      0 0 0 4px var(--border),
+      0 0 0 5px var(--bg);
+    background: rgba(0,0,0,0.4);
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  .insert-coin {
+    font-size: 14px;
+    color: var(--gold);
+    animation: blink-sel 1.2s step-end infinite;
+    margin-bottom: 12px;
+  }
+
+  .footer-copy {
+    font-size: 8px;
+    color: var(--dim);
+    line-height: 2;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 820px) {
+    .layout { grid-template-columns: 1fr; }
+    .site-title { font-size: 22px; }
+    .hud { font-size: 8px; }
+    .nav-link { padding: 10px 12px; font-size: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Stars background -->
+<div id="stars" aria-hidden="true"></div>
+
+<!-- ══════════ HUD BAR ══════════ -->
+<div class="hud" role="banner">
+  <div class="hud-score">SCORE <span>001337042</span></div>
+  <div class="hud-lives">♥ ♥ ♥</div>
+  <div class="hud-level">LEVEL <span>50</span></div>
+</div>
+
+<div class="screen">
+
+  <!-- ══════════ HEADER ══════════ -->
+  <header class="game-header">
+    <div class="header-subtitle">★ &nbsp; EST. 2005 &nbsp; ★ &nbsp; TECH CHRONICLES &nbsp; ★</div>
+    <span class="site-title">SEÑOR<br>DEVELOPER</span>
+    <div class="site-tagline">
+      The adventures of a <em>20-year veteran</em> in software engineering
+    </div>
+    <div class="class-badges">
+      <span class="badge badge-gold">TECH LEAD</span>
+      <span class="badge badge-cyan">.NET MAGE</span>
+      <span class="badge badge-green">AZURE KNIGHT</span>
+      <span class="badge badge-purple">RETRO GAMER</span>
+    </div>
+  </header>
+
+  <!-- ══════════ NAV ══════════ -->
+  <nav class="game-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="nav-link active" href="#">HOME</a>
+      <a class="nav-link" href="#">POSTS</a>
+      <a class="nav-link" href="#">ABOUT</a>
+      <a class="nav-link" href="#">TAGS</a>
+      <a class="nav-link" href="#">GITHUB</a>
+      <div class="nav-spacer"></div>
+    </div>
+  </nav>
+
+  <!-- ══════════ MAIN LAYOUT ══════════ -->
+  <div class="layout">
+
+    <!-- ────── QUEST LOG ────── -->
+    <main>
+      <div class="quest-log-header">★ ADVENTURE LOG</div>
+
+      <!-- POST 1 — Main Quest -->
+      <article class="post-card">
+        <div class="post-card-top">
+          <span class="post-type">★ MAIN QUEST</span>
+          <span class="post-num">#042</span>
+        </div>
+        <div class="post-body">
+          <h2 class="post-title">
+            <a href="#">WHY "DEEP WORK" IS THE PRODUCTIVITY SUPERPOWER EVERY ENGINEER NEEDS</a>
+          </h2>
+          <p class="post-excerpt">
+            In today's hyper-connected world, the ability to focus without distraction is
+            becoming increasingly rare — and increasingly valuable. Cal Newport calls it Deep
+            Work, and after 20 years of shipping software I think it's the single most
+            underrated engineering skill.
+          </p>
+          <div class="read-bar-wrap">
+            <span class="read-bar-label">EXP GAIN</span>
+            <div class="read-bar">
+              <div class="read-bar-fill" style="width:70%"></div>
+            </div>
+            <span class="read-time-val">6 MIN</span>
+          </div>
+          <div class="post-meta">
+            <span class="post-date">APR 21, 2025</span>
+            <div class="tags">
+              <span class="tag">books</span>
+              <span class="tag">productivity</span>
+              <span class="tag">focus</span>
+              <span class="tag">engineering</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-footer">
+          <a class="read-more" href="#">READ &gt;&gt;</a>
+        </div>
+      </article>
+
+      <!-- POST 2 — Side Quest -->
+      <article class="post-card">
+        <div class="post-card-top">
+          <span class="post-type side-quest">◈ SIDE QUEST</span>
+          <span class="post-num">#041</span>
+        </div>
+        <div class="post-body">
+          <h2 class="post-title">
+            <a href="#">MICROSERVICE PATTERNS THAT ACTUALLY SURVIVE CONTACT WITH PRODUCTION</a>
+          </h2>
+          <p class="post-excerpt">
+            After watching dozens of microservice architectures crumble in production across
+            two decades, I've compiled the patterns that hold up when reality kicks in.
+            Spoiler: it's not about the framework, it's about the contracts between services.
+          </p>
+          <div class="read-bar-wrap">
+            <span class="read-bar-label">EXP GAIN</span>
+            <div class="read-bar">
+              <div class="read-bar-fill" style="width:100%"></div>
+            </div>
+            <span class="read-time-val">10 MIN</span>
+          </div>
+          <div class="post-meta">
+            <span class="post-date">MAR 15, 2025</span>
+            <div class="tags">
+              <span class="tag">azure</span>
+              <span class="tag">dotnet</span>
+              <span class="tag">architecture</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-footer">
+          <a class="read-more" href="#">READ &gt;&gt;</a>
+        </div>
+      </article>
+
+      <!-- POST 3 — Main Quest -->
+      <article class="post-card">
+        <div class="post-card-top">
+          <span class="post-type">★ MAIN QUEST</span>
+          <span class="post-num">#040</span>
+        </div>
+        <div class="post-body">
+          <h2 class="post-title">
+            <a href="#">10 THINGS I WISH I KNEW BEFORE BECOMING A TECH LEAD</a>
+          </h2>
+          <p class="post-excerpt">
+            The jump from senior developer to tech lead is not a promotion — it's a career
+            change. You stop optimising your own output and start amplifying an entire team's.
+            Here's the unfiltered truth nobody puts in the job description.
+          </p>
+          <div class="read-bar-wrap">
+            <span class="read-bar-label">EXP GAIN</span>
+            <div class="read-bar">
+              <div class="read-bar-fill" style="width:50%"></div>
+            </div>
+            <span class="read-time-val">5 MIN</span>
+          </div>
+          <div class="post-meta">
+            <span class="post-date">FEB 28, 2025</span>
+            <div class="tags">
+              <span class="tag">leadership</span>
+              <span class="tag">career</span>
+              <span class="tag">engineering</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-footer">
+          <a class="read-more" href="#">READ &gt;&gt;</a>
+        </div>
+      </article>
+
+      <!-- PAGINATION -->
+      <nav class="pagination" aria-label="Pagination">
+        <a class="page-btn" href="#">◄ PREV</a>
+        <a class="page-btn active" href="#">1</a>
+        <a class="page-btn" href="#">2</a>
+        <a class="page-btn" href="#">3</a>
+        <span class="page-info">PAGE 1 / 9</span>
+        <a class="page-btn" href="#">NEXT ►</a>
+      </nav>
+    </main>
+
+    <!-- ────── SIDEBAR ────── -->
+    <aside class="sidebar" aria-label="Sidebar">
+
+      <!-- PLAYER STATS -->
+      <div class="sbox">
+        <div class="sbox-head">PLAYER STATS</div>
+        <div class="sbox-body">
+          <img class="player-avatar"
+               src="https://avatars.githubusercontent.com/ftnilsson"
+               alt="Fredrik Nilsson"
+               onerror="this.style.background='#3a3a6a'">
+          <div class="player-name">FREDRIK<br>NILSSON</div>
+          <div class="stat-rows">
+            <div class="stat-row"><span>CLASS:</span><span>TECH LEAD</span></div>
+            <div class="stat-row"><span>LVL:</span><span>50</span></div>
+            <div class="stat-row"><span>EXP:</span><span>20+ YRS</span></div>
+            <div class="stat-row"><span>SPEC:</span><span>.NET / AWS / Agentic</span></div>
+            <div class="stat-row"><span>GUILD:</span><span>SENIOR DEVS / VIBE CODER</span></div>
+          </div>
+          <div class="skills">
+            <div class="skill">
+              <div class="skill-name"><span>.NET</span><span>★★★★★</span></div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:100%;background:linear-gradient(to right,#4cd66e,#38d9f5)"></div>
+              </div>
+            </div>
+            <div class="skill">
+              <div class="skill-name"><span>AZURE</span><span>★★★★☆</span></div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:80%;background:linear-gradient(to right,#38d9f5,#9b72cf)"></div>
+              </div>
+            </div>
+            <div class="skill">
+              <div class="skill-name"><span>LEADERSHIP</span><span>★★★★★</span></div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:100%;background:linear-gradient(to right,#f7c948,#e64040)"></div>
+              </div>
+            </div>
+            <div class="skill">
+              <div class="skill-name"><span>GAMING</span><span>★★★★★</span></div>
+              <div class="skill-bar">
+                <div class="skill-fill" style="width:100%;background:linear-gradient(to right,#9b72cf,#e64040)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACHIEVEMENTS -->
+      <div class="sbox">
+        <div class="sbox-head">ACHIEVEMENTS</div>
+        <div class="sbox-body">
+          <ul class="achievements">
+            <li class="achievement">
+              <span class="ach-icon">🏆</span>
+              <div class="ach-text">
+                <strong>20 YEAR VETERAN</strong>
+                Two decades in the industry
+              </div>
+            </li>
+            <li class="achievement">
+              <span class="ach-icon">⚔️</span>
+              <div class="ach-text">
+                <strong>TECH LEAD UNLOCKED</strong>
+                Lead your first engineering team
+              </div>
+            </li>
+            <li class="achievement">
+              <span class="ach-icon">🎮</span>
+              <div class="ach-text">
+                <strong>RETRO COLLECTOR</strong>
+                Kept the love of classic gaming alive
+              </div>
+            </li>
+            <li class="achievement">
+              <span class="ach-icon">📚</span>
+              <div class="ach-text">
+                <strong>KNOWLEDGE SHARE</strong>
+                Published 42+ blog posts
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TAGS / INVENTORY -->
+      <div class="sbox">
+        <div class="sbox-head">INVENTORY / TAGS</div>
+        <div class="sbox-body">
+          <ul class="tag-cloud">
+            <li><a href="#">books <span>[8]</span></a></li>
+            <li><a href="#">azure <span>[6]</span></a></li>
+            <li><a href="#">dotnet <span>[5]</span></a></li>
+            <li><a href="#">productivity <span>[4]</span></a></li>
+            <li><a href="#">leadership <span>[4]</span></a></li>
+            <li><a href="#">gaming <span>[3]</span></a></li>
+            <li><a href="#">architecture <span>[3]</span></a></li>
+            <li><a href="#">career <span>[3]</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer class="game-footer">
+    <div class="insert-coin">— INSERT COIN TO CONTINUE —</div>
+    <div class="footer-copy">
+      © 2025 FREDRIK NILSSON &nbsp;·&nbsp; ALL RIGHTS RESERVED<br>
+      POWERED BY JEKYLL &nbsp;·&nbsp; HOSTED ON GITHUB PAGES
+    </div>
+  </footer>
+
+</div><!-- .screen -->
+
+<script>
+  (function () {
+    const container = document.getElementById('stars');
+    const count = 180;
+    for (let i = 0; i < count; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random() * 2 + 0.5;
+      s.style.cssText = [
+        'left:'             + (Math.random() * 100) + '%',
+        'top:'              + (Math.random() * 100) + '%',
+        'width:'            + size + 'px',
+        'height:'           + size + 'px',
+        'animation-duration:' + (Math.random() * 4 + 2) + 's',
+        'animation-delay:'  + (Math.random() * 6)    + 's',
+      ].join(';');
+      container.appendChild(s);
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,59 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
 
     {% include meta.html %}
 
-    <!--[if lt IE 9]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Rubik&family=Tilt+Neon&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% if page.layout == 'post' %}{% include social-image.html %}{% endif %}
+    {% include structured-data.html %}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
-
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->  </head>
+  </head>
 
   <body>
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <div class="site-avatar-wrapper">
-            <a href="{{ site.baseurl }}/" class="site-avatar"><img alt="avatar pic" src="{{ site.avatar }}" /></a>
-          </div>          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
-          </div>          <nav>
-            <!-- <a href="{{ site.baseurl }}/">Blog</a> -->
-            <a href="{{ site.baseurl }}/repositories">Projects</a>
-            <a href="{{ site.baseurl }}/tags">Tags</a>
-            <a href="{{ site.baseurl }}/about">About</a>
-          </nav>
-        </header>
-      </div>
-    </div>    <div id="main" role="main" class="container">
-      <div class="main-content">
-        {{ content }}
-      </div>
-      <div class="sidebar">
-        {% include popular_tags.html %}
-      </div>
-    </div>
+    <div class="screen">
 
-    <div class="wrapper-footer">
-      <div class="container">
-        <footer class="footer">
-          {% include svg-icons.html %}
-         <div class="credits">this GitHub page is based on <a href="https://github.com/barryclark/jekyll-now" title="jekyll-now">jekyll-now</a></div>
-        </footer>
-      </div>    </div>
-    
+      <!-- HEADER -->
+      <header class="header">
+        <div class="header-sys-line">
+          SEÑOR_DEVELOPER.SYS&nbsp;&nbsp;<span>v20.0</span>&nbsp;&nbsp;::&nbsp;&nbsp;INITIALIZED&nbsp;&nbsp;::&nbsp;&nbsp;ALL SYSTEMS NOMINAL
+        </div>
+        <div class="site-title">
+          <a href="{{ site.baseurl }}/">{{ site.name | upcase }}</a>
+        </div>
+        <div class="site-subtitle">// THE GITHUB HOME OF A <em>SEÑOR DEV</em> — 20+ YEARS IN THE TRENCHES</div>
+        <div class="status-bar">
+          <span class="status-item">SYSTEM: ONLINE</span>
+          <span class="status-item">DATE: {{ site.time | date: "%Y-%m-%d" }}</span>
+          <span class="status-item">UPTIME: 20+ YRS</span>
+          <span class="status-item">STACK: .NET / AWS / Agentic</span>
+          <span class="status-item">ROLE: TECH LEAD</span>
+          <span class="status-item">HOBBY: GAMING</span>
+        </div>
+      </header>
+
+      <!-- NAV -->
+      <nav class="terminal-nav" aria-label="Main navigation">
+        <a class="nav-key {% if page.url == '/' or page.url contains '/page' %}active{% endif %}" href="{{ site.baseurl }}/"><em>F1:</em>HOME</a>
+        <a class="nav-key {% if page.url contains '/tags' %}active{% endif %}" href="{{ site.baseurl }}/tags"><em>F2:</em>TAGS</a>
+        <a class="nav-key {% if page.url contains '/repositories' %}active{% endif %}" href="{{ site.baseurl }}/repositories"><em>F3:</em>PROJECTS</a>
+        <a class="nav-key {% if page.url contains '/about' %}active{% endif %}" href="{{ site.baseurl }}/about"><em>F4:</em>ABOUT</a>
+        <a class="nav-key" href="https://github.com/{{ site.footer-links.github }}" target="_blank" rel="noopener"><em>F5:</em>GITHUB</a>
+        <div class="nav-prompt">C:\SEÑOR_DEV&gt;&nbsp;<span class="cursor">█</span></div>
+      </nav>
+
+      <!-- MAIN LAYOUT -->
+      <div class="layout">
+        <main id="main" role="main">
+          {{ content }}
+        </main>
+
+        <aside class="sidebar" aria-label="Sidebar">
+
+          <!-- ABOUT -->
+          <div class="sbox">
+            <div class="sbox-head">// ABOUT.DAT</div>
+            <div class="sbox-body">
+              <div class="avatar-wrap">
+                <img class="avatar"
+                     src="{{ site.avatar }}"
+                     alt="{{ site.name }} avatar"
+                     onerror="this.style.background='#1c7a1c'">
+                <div class="about-name">FREDRIK NILSSON</div>
+              </div>
+              <div class="stat-list">
+                <div class="stat-row"><span class="stat-label">ROLE:</span><span class="stat-val">TECH LEAD</span></div>
+                <div class="stat-row"><span class="stat-label">EXP:</span><span class="stat-val">20+ YEARS</span></div>
+                <div class="stat-row"><span class="stat-label">STACK:</span><span class="stat-val">.NET / AZURE</span></div>
+                <div class="stat-row"><span class="stat-label">HOBBIES:</span><span class="stat-val">GAMING / RETRO</span></div>
+                <div class="stat-row"><span class="stat-label">STATUS:</span><span class="stat-val">ONLINE ●</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAGS -->
+          {% include popular_tags.html %}
+
+          <!-- SYSTEM NFO -->
+          <div class="sbox">
+            <div class="sbox-head">// SYSTEM.NFO</div>
+            <div class="sbox-body">
+              <div class="stat-list">
+                <div class="stat-row"><span class="stat-label">ENGINE:</span><span class="stat-val">JEKYLL</span></div>
+                <div class="stat-row"><span class="stat-label">HOST:</span><span class="stat-val">GITHUB PAGES</span></div>
+                <div class="stat-row"><span class="stat-label">POSTS:</span><span class="stat-val">{{ site.posts | size }}</span></div>
+                <div class="stat-row"><span class="stat-label">LANG:</span><span class="stat-val">MARKDOWN</span></div>
+              </div>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="terminal-footer">
+        <div class="prompt-end">C:\SEÑOR_DEV&gt;&nbsp;<span class="cursor">█</span></div>
+        <div class="copy-note">© {{ site.time | date: "%Y" }} FREDRIK NILSSON — ALL RIGHTS RESERVED</div>
+        <div class="eof">[ EOF ]</div>
+      </footer>
+
+    </div><!-- .screen -->
+
     {% include cookie-banner.html %}
-    
+
     <script>
       window.analyticsId = '{{ site.google_analytics }}';
     </script>
