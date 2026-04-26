@@ -66,7 +66,7 @@ layout: default
     {% if i == paginator.page %}
       <span class="page-cur">{% if i < 10 %}0{{ i }}{% else %}{{ i }}{% endif %}</span>
     {% else %}
-      <a class="page-link" href="{{ site.baseurl }}{% if i == 1 %}/{% else %}/page{{ i }}/{% endif %}">{% if i < 10 %}0{{ i }}{% else %}{{ i }}{% endif %}</a>
+      <a class="page-link" href="{{ site.baseurl }}{% if i == 1 %}/{% else %}/page/{{ i }}/{% endif %}">{% if i < 10 %}0{{ i }}{% else %}{{ i }}{% endif %}</a>
     {% endif %}
   {% endfor %}
 
