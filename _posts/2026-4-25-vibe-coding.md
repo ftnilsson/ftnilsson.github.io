@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Vibe Coding — Embrace the Agentic Future or Get Left Behind"
+title: "Vibe Coding by Gene Kim and Steve Yegg — Embrace the Agentic Future or Get Left Behind"
 tags: [books, ai, agents, vibe-coding, engineering]
 last_updated: 2026-04-25
 ---
