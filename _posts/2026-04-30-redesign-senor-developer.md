@@ -3,7 +3,7 @@ layout: post
 title: "Redesign Señor Developer in 10 Minutes with 4 Prompts"
 description: "Coming back from a year off blogging, I used Claude Code and GitHub Copilot to completely redesign my Jekyll site — no Ruby, no design skills, no problem."
 tags: [ai, github-copilot, dev-containers, jekyll, tips-and-tricks]
-last_updated: 2026-04-26
+last_updated: 2026-04-30
 ---
 
 I came back from a year off blogging and decided the site needed a facelift. I'm not a UX designer, I don't write Ruby, and I wasn't about to spend a weekend wrestling with CSS from scratch — so I handed the whole thing to the agents.
