@@ -1,0 +1,22 @@
+// ── Agent / tool logos used in blog posts
+// SVGs loaded via <img> tags cannot inherit CSS color, so we use filter to tint them.
+
+article.post .entry {
+  img[src*="githubcopilot"] {
+    // The Copilot SVG uses fill="currentColor" → renders black on our dark background.
+    // Convert to white so it's visible on the CRT theme.
+    filter: brightness(0) invert(1);
+    width: 120px;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+  }
+
+  img[src*="claudecode"] {
+    // Claude Code SVG has fill="#D97757" hardcoded — no filter needed.
+    width: 120px;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+  }
+}
