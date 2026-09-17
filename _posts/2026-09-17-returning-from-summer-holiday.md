@@ -10,7 +10,7 @@ This has been a bit of a strange year for me personally and I have to admit I ha
 
 I usually don't take a long vacation, but this year I decided to work early summer and then have a good break at the end. Working when most people are on holiday can be lonely, but also very productive — you can work long spells uninterrupted. Combine this with agentic coding and you can be super productive on all those chores and technical debt that never gets tackled.
 
-Anyway, back to the much needed vacation. When it came I pretty much closed the computer and handed over the reins of the team to a colleague and really went on holiday. But now the holidays are over and things start ramping up at work again — I really struggle to find my groove and get motivated again. So how can we get back into the groove knowing summer is at an end and we are heading into a darker and colder time of year?
+Anyway, back to the much-needed vacation. When it came I pretty much closed the computer and handed over the reins of the team to a colleague and really went on holiday. But now the holidays are over and things start ramping up at work again — I really struggle to find my groove and get motivated again. So how can we get back into the groove knowing summer is at an end and we are heading into a darker and colder time of year?
 
 
 ## Getting Back Into the Groove
