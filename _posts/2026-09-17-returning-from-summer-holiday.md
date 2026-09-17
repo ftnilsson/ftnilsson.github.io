@@ -21,7 +21,7 @@ Anyway, back to the much-needed vacation. When it came I pretty much closed the 
 
 **Re-connect with your team as people, not just colleagues.** Coming back after a break is a great excuse to have a few informal chats — grab a virtual coffee, ask how their summer was. It rebuilds the social fabric of the team and, honestly, it makes coming back feel a lot less cold.
 
-**Block some focus time early.** The calendar fills up fast when you return. Block at least a couple of hours of deep work time in your first week before everyone else does it for you. If you want a refresher on why this matters, I wrote about it in my [Deep Work post](/Deep-Work).
+**Block some focus time early.** The calendar fills up fast when you return. Block at least a couple of hours of deep work time in your first week before everyone else does it for you. If you want a refresher on why this matters, I wrote about it in my [Deep Work post](/Deep-Work/).
 
 
 ## Key Takeaways
